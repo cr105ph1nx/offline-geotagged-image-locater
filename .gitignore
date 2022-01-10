@@ -4,3 +4,4 @@
 /map-data/raster-tiles/*
 /.vscode/
 /__pycache__
+/static/*

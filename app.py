@@ -28,11 +28,16 @@ def upload_form():
 @app.route('/', methods=['POST'])
 def upload_file():
     if request.method == 'POST':
-        # check if the post request has the files part
+        # Check if the post request has the files part
         if 'files[]' not in request.files:
             flash('No file part')
             return redirect(request.url)
         files = request.files.getlist('files[]')
+        # Check if files has more than 3 items
+        if(len(files) > 3):
+            flash('You cannot select more than 3 images')
+            return redirect(request.url)
+        # Add new images
         for file in files:
             if file and allowed_file(file.filename):
                 filename = secure_filename(file.filename)
