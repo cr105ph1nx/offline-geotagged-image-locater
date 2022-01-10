@@ -4,34 +4,34 @@ A webapp that locates any geotagged image file on a local, offline map within th
 
 ## Project Setup
 
-Cloning the project
+1- Cloning the project
 
 ```
 $ git clone https://github.com/cr105ph1nx/offline-geotagged-image-locater
 $ cd offline-geotagged-image-locater
 ```
 
-Setting up a virtual environment
+2- Setting up a virtual environment
 
 ```
 $ pip install virtualenv
 $ virtualenv env
 ```
 
-Activating environment on Linux
+3- Activating environment on Linux
 
 ```
 $ source env/bin/activate
 ```
 
-Installing requirements
+4- Installing requirements
 
 ```
 $ pip install -r requirments.txt
 ```
 
-Running the script
+5- Adding XYZ raster map tiles to map-data/raster-tiles (You can roll the tiles using QGis)
 
-```
-$ python geotagging.py path/to/image.jpeg
-```
+6- Change map attributes in template/index.html
+
+7- Open template/index.html
