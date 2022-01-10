@@ -11,10 +11,10 @@ L.tileLayer("/static/raster-tiles/{z}/{x}/{y}.png", {
 
 // Add markers, templates and circles to map
 for (var i = 0; i < locations.length; i++) {
-  marker = new L.marker([locations[i][1], locations[i][2]])
+  marker = L.marker([locations[i][1], locations[i][2]])
     .bindPopup(locations[i][0])
     .addTo(map);
-  circle = new L.circle([locations[i][1], locations[i][2]], {
+  circle = L.circle([locations[i][1], locations[i][2]], {
     radius: 50000,
     color: "#0080ff",
     fillColor: "#0080ff",

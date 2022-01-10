@@ -54,7 +54,12 @@ def saveData(tags, lat, lon):
 
 
 def getLocation(exif_data_image, path_to_image):
-    template = f"""<h3 > ({exif_data_image['GPS Latitude']}, {exif_data_image['GPS Longitude']}) < /h3 ><p > {exif_data_image['Image DateTime']} < /p ><p > ({exif_data_image["EXIF ExifImageWidth"]}, {exif_data_image["EXIF ExifImageLength"]}) px< /p ><div style = "text-align:center" ><img width = "150" height = "150"src = "{path_to_image}"/></div >"""
+    template = f"""<h3>({exif_data_image['GPS Latitude'][0]}, {exif_data_image['GPS Longitude'][0]})</h3>
+    {exif_data_image['Image DateTime'][0]} </br>
+    
+    ({exif_data_image["EXIF ExifImageWidth"][0]} x {exif_data_image["EXIF ExifImageLength"][0]}) px  </br></br>
+    
+    <div style = "text-align:center" ><img width = "150" height = "150"src = "{path_to_image}"/></div >"""
     location = [template, exif_data_image['GPS Latitude'][0],
                 exif_data_image['GPS Longitude'][0]]
     return location
