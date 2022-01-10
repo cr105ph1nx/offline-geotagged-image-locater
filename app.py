@@ -1,13 +1,14 @@
 # app.py
 from flask import Flask, render_template, flash, request, redirect
 from werkzeug.utils import secure_filename
+from geotagging import geotagging
 import os
 #import magic
 import urllib.request
 
 app = Flask(__name__)
 
-UPLOAD_FOLDER = 'static/'
+UPLOAD_FOLDER = 'static/images'
 
 app.secret_key = "zWIm007r3dkv9Nfv9jV2uaNRrGkqGzMu"
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -23,6 +24,11 @@ def allowed_file(filename):
 @app.route('/')
 def upload_form():
     return render_template('upload.html')
+
+
+@app.route('/map')
+def show_map():
+    return render_template('index.html')
 
 
 @app.route('/', methods=['POST'])
@@ -46,8 +52,10 @@ def upload_file():
             if file and allowed_file(file.filename):
                 filename = secure_filename(file.filename)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        flash('File(s) successfully uploaded')
-        return redirect('/')
+        # Handle exif data
+        exif_data = geotagging(UPLOAD_FOLDER)
+        print(exif_data)
+        return redirect('/map')
 
 
 if __name__ == '__main__':

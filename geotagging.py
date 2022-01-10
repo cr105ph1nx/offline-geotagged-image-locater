@@ -1,5 +1,5 @@
 import exifread
-from sys import argv
+import os
 
 
 def extractData(img):
@@ -8,16 +8,24 @@ def extractData(img):
 
     # d = map(str(tags['GPS GPSLatitude']).split(),int)
     d = str(tags['GPS GPSLatitude'])[1:-1].split(',')[:-1]
+
     north_south = -1 if (str(tags['GPS GPSLatitudeRef']) == "S") else 1
 
     d2 = str(tags['GPS GPSLongitude'])[1:-1].split(',')[:-1]
+
     east_west = -1 if (str(tags['GPS GPSLatitudeRef']) == "W") else 1
 
     for i, item in enumerate(d):
-        d[i] = float(item)
+        try:
+            d[i] = float(item)
+        except:
+            d[i] = float(int(d[i].split('/')[0])/int(d[i].split('/')[1]))
 
     for i, item in enumerate(d2):
-        d2[i] = float(item)
+        try:
+            d2[i] = float(item)
+        except:
+            d2[i] = float(int(d2[i].split('/')[0])/int(d2[i].split('/')[1]))
 
     lat = north_south*(d[0] + d[1]/60)
     lon = east_west*(d2[0] + d2[1]/60)
@@ -27,21 +35,30 @@ def extractData(img):
 
 def saveData(tags, lat, lon):
     # Appending the following tags to the output file:
-    accepted_tags = ["Image Orientation", "Image ResolutionUnit", "Image DateTime",
-                     "EXIF ExifImageWidth", "EXIF ExifImageLength", "EXIF LensModel"]
+    exif_data_image = {"Image DateTime": [], "EXIF ExifImageWidth": [
+    ], "EXIF ExifImageLength": [], "GPS Latitude": [], "GPS Longitude": []}
+    # Appending the following tags to the output file:
+    accepted_tags = ["Image DateTime",
+                     "EXIF ExifImageWidth", "EXIF ExifImageLength"]
     for tag in tags.keys():
         for accepted_tag in accepted_tags:
             if tag.startswith(accepted_tag):
-                with open(f'exifdata/test.txt', "a") as file:
-                    file.write("%s:%s\n" % (tag, tags[tag]))
+                # add to dictionary
+                exif_data_image[tag].append(str(tags[tag]))
 
-    # Append latitude, longitude
-    with open(f'exifdata/test.txt', "a") as file:
-        file.write(f'GPS Latitude: {lat}\n')
-        file.write(f'GPS Longitude: {lon}\n')
+    # Append latitude, longitude to dictionary
+    exif_data_image["GPS Latitude"].append(lat)
+    exif_data_image["GPS Longitude"].append(lon)
+
+    return exif_data_image
 
 
-if __name__ == '__main__':
-    img = str(argv[1])
-    tags, lat, lon = extractData(img)
-    saveData(tags, lat, lon)
+def geotagging(UPLOAD_FOLDER):
+    directory = os.listdir(UPLOAD_FOLDER)
+    exif_data_images = []
+    # iterate through images
+    for image in directory:
+        tags, lat, lon = extractData(f"{UPLOAD_FOLDER}/{image}")
+        exif_data_image = saveData(tags, lat, lon)
+        exif_data_images.append(exif_data_image)
+    return exif_data_images
