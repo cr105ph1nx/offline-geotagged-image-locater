@@ -37,6 +37,10 @@ def upload_file():
         if(len(files) > 3):
             flash('You cannot select more than 3 images')
             return redirect(request.url)
+        # Delete the images in static/ before adding new ones
+        for root, dirs, fichiers in os.walk(UPLOAD_FOLDER):
+            for fichier in fichiers:
+                os.remove(os.path.join(root, fichier))
         # Add new images
         for file in files:
             if file and allowed_file(file.filename):
