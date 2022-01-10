@@ -1,7 +1,7 @@
 /env
 /images/*
-/exifdata/*
 /.vscode/
 /__pycache__
 /static/images
 /static/raster-tiles
+/static/js/locations.js

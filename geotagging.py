@@ -53,12 +53,20 @@ def saveData(tags, lat, lon):
     return exif_data_image
 
 
+def getLocation(exif_data_image, path_to_image):
+    template = f"""<h3 > ({exif_data_image['GPS Latitude']}, {exif_data_image['GPS Longitude']}) < /h3 ><p > {exif_data_image['Image DateTime']} < /p ><p > ({exif_data_image["EXIF ExifImageWidth"]}, {exif_data_image["EXIF ExifImageLength"]}) px< /p ><div style = "text-align:center" ><img width = "150" height = "150"src = "{path_to_image}"/></div >"""
+    location = [template, exif_data_image['GPS Latitude'][0],
+                exif_data_image['GPS Longitude'][0]]
+    return location
+
+
 def geotagging(UPLOAD_FOLDER):
     directory = os.listdir(UPLOAD_FOLDER)
-    exif_data_images = []
+    locations = []
     # iterate through images
     for image in directory:
         tags, lat, lon = extractData(f"{UPLOAD_FOLDER}/{image}")
         exif_data_image = saveData(tags, lat, lon)
-        exif_data_images.append(exif_data_image)
-    return exif_data_images
+        location = getLocation(exif_data_image, f"{UPLOAD_FOLDER}/{image}")
+        locations.append(location)
+    return locations

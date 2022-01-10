@@ -3,6 +3,7 @@ from flask import Flask, render_template, flash, request, redirect
 from werkzeug.utils import secure_filename
 from geotagging import geotagging
 import os
+import json
 #import magic
 import urllib.request
 
@@ -53,8 +54,11 @@ def upload_file():
                 filename = secure_filename(file.filename)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         # Handle exif data
-        exif_data = geotagging(UPLOAD_FOLDER)
-        print(exif_data)
+        locations = geotagging(UPLOAD_FOLDER)
+        # Write to locations.js
+        with open('static/js/locations.js', 'w') as outfile:
+            outfile.write(f"export const locations = {locations};")
+
         return redirect('/map')
 
 
