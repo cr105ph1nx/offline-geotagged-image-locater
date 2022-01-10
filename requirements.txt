@@ -1,3 +1,2 @@
 exifread
 flask
-flask-sqlalchemy
