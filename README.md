@@ -27,7 +27,7 @@ $ source env/bin/activate
 4- Installing requirements
 
 ```
-$ pip install -r requirments.txt
+$ pip install -r requirements.txt
 ```
 
 5- Adding XYZ raster map tiles to map-data/raster-tiles (You can roll the tiles using QGis)

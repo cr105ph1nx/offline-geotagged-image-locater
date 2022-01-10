@@ -1,6 +1,4 @@
 import exifread
-import json
-import requests
 from sys import argv
 
 

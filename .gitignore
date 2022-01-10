@@ -2,3 +2,5 @@
 /images/*
 /exifdata/*
 /map-data/raster-tiles/*
+/.vscode/
+/__pycache__
