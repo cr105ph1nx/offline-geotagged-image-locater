@@ -1,6 +1,8 @@
 # Offline Geotagged-Image Locater
 
-A webapp that locates any geotagged image file on a local, offline map within the constraint of the Algerian area. It uses the folium library.
+This is my Operating System project for the first semester of Info-Sec Masters 1 at USTHB. 
+
+A webapp that locates any geotagged image file on a local, offline map within the constraint of the Algerian area. It uses `flask` as a backend framework, the `leaflet.js` library to serve the map tiles dynamically, and `exifread` python module to extract metadata from images. The XYZ raster tiles were rolled using `QGIS`.
 
 ## Project Setup
 
@@ -30,14 +32,16 @@ $ source env/bin/activate
 $ pip install -r requirements.txt
 ```
 
-5- Adding XYZ raster map tiles to map-data/raster-tiles (You can roll the tiles using QGis)
-
-6- Customize your map attributes in static/js/main.py
-
-7- Run app
+5- Run app
 
 ```
 $ flask run
 ```
+6- You can visit your app on any browser at `http://127.0.0.1:5000/`
 
-8- You can visit your app on any browser at `http://127.0.0.1:5000/`
+## Customize the project 
+
+- Add your personal XYZ raster map tiles to `sstatic/raster-tiles` (You can roll the tiles using QGIS)
+
+- Customize your map attributes in `static/js/main.py`
+
